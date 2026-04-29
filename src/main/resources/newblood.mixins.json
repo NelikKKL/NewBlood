@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.newblood.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "MinecraftClientMixin",
+    "ClientPlayerEntityMixin",
+    "ClientPlayerInteractionManagerMixin",
+    "ChatMixin",
+    "BlockMixin",
+    "AbstractBlockStateMixin",
+    "BackgroundRendererMixin",
+    "WorldRendererMixin",
+    "ParticleManagerMixin",
+    "GameRendererMixin",
+    "NetworkMixin",
+    "PlayerMoveC2SPacketAccessor",
+    "LivingEntityMixin",
+    "HeldItemRendererMixin",
+    "LightmapTextureManagerMixin",
+    "ItemEntityRendererMixin",
+    "CapeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

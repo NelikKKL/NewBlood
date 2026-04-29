@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "newblood",
+  "version": "${version}",
+  "name": "NewBlood",
+  "description": "A powerful cheat mod for Minecraft 1.20.1",
+  "authors": [
+    "NelikNG"
+  ],
+  "contact": {
+    "homepage": "https://github.com/NelikKKL/NewBlood",
+    "sources": "https://github.com/NelikKKl/NewBlood"
+  },
+  "license": "MIT",
+  "icon": "assets/newblood/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.newblood.NewBlood"
+    ],
+    "client": [
+      "me.newblood.NewBloodClient"
+    ]
+  },
+  "mixins": [
+    "newblood.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
