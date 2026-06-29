@@ -54,9 +54,7 @@ jobs:
       - name: Build with Gradle
         shell: pwsh
         working-directory: ${{ env.PROJECT_ROOT }}
-        run: |
-          & .\gradlew.bat build --no-daemon
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        run: java -jar gradle\wrapper\gradle-wrapper.jar build --no-daemon
         env:
           GRADLE_OPTS: "-Xmx2048m -XX:MaxMetaspaceSize=512m"
 
