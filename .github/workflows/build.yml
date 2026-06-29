@@ -58,14 +58,27 @@ jobs:
         env:
           GRADLE_OPTS: "-Xmx2048m -XX:MaxMetaspaceSize=512m"
 
-      # ── 6. Upload the built JAR as a workflow artifact ──────────────────────
+      # ── 6. Stage the remapped JAR to a fixed folder ─────────────────────────
+      #    upload-artifact struggles with backslash env vars and negation globs,
+      #    so we copy the final JAR to a predictable path first.
+      - name: Stage JAR for upload
+        shell: pwsh
+        run: |
+          $libs = Join-Path $env:PROJECT_ROOT "build\libs"
+          $staging = Join-Path $env:GITHUB_WORKSPACE "staging"
+          New-Item -ItemType Directory -Force -Path $staging | Out-Null
+          Get-ChildItem -Path $libs -Filter "*.jar" |
+            Where-Object { $_.Name -notmatch "-dev\.jar$" -and $_.Name -notmatch "-sources\.jar$" } |
+            ForEach-Object {
+              Copy-Item $_.FullName -Destination $staging
+              Write-Host "Staged: $($_.Name)"
+            }
+
+      # ── 7. Upload the built JAR as a workflow artifact ──────────────────────
       - name: Upload mod JAR
         uses: actions/upload-artifact@v4
         with:
           name: newblood-${{ github.sha }}
-          path: |
-            ${{ env.PROJECT_ROOT }}\build\libs\*.jar
-            !${{ env.PROJECT_ROOT }}\build\libs\*-dev.jar
-            !${{ env.PROJECT_ROOT }}\build\libs\*-sources.jar
+          path: staging/*.jar
           if-no-files-found: error
           retention-days: 30
