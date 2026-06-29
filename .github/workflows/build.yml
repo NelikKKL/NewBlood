@@ -54,7 +54,7 @@ jobs:
       - name: Build with Gradle
         shell: cmd
         working-directory: ${{ env.PROJECT_ROOT }}
-        run: gradlew.bat build --no-daemon
+        run: call gradlew.bat build --no-daemon
         env:
           GRADLE_OPTS: "-Xmx2048m -XX:MaxMetaspaceSize=512m"
 
