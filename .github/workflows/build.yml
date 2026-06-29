@@ -12,6 +12,10 @@ jobs:
     name: Build NewBlood Mod
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: NewBlood-main   # files are nested inside this folder
+
     steps:
       # ── 1. Checkout source ──────────────────────────────────────────────────
       - name: Checkout repository
@@ -32,7 +36,7 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
             ~/.gradle/loom-cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/NewBlood-main/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
@@ -52,10 +56,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: newblood-${{ github.sha }}
-          # fabric-loom outputs two jars; the remapped one has no "-dev" suffix
+          # artifact paths are always relative to repo root, not working-directory
           path: |
-            build/libs/*.jar
-            !build/libs/*-dev.jar
-            !build/libs/*-sources.jar
+            NewBlood-main/build/libs/*.jar
+            !NewBlood-main/build/libs/*-dev.jar
+            !NewBlood-main/build/libs/*-sources.jar
           if-no-files-found: error
           retention-days: 30
